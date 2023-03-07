@@ -16,6 +16,7 @@
 
                 <div class="box-body">
                     <div class="row">
+                        <input type="text" id="txtid">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">Nombre (*)</label>

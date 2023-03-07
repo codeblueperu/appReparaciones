@@ -43,7 +43,8 @@ async function listarData() {
       __table_herramientas__.clear().draw();
 
       for (let i = 0; i < data.length; i++) {
-        let btndelete = `<button class="btn-circle bg-danger">OLA</button>`;
+        let btnedit = `<button class="btn btn-warning btn-sm" onclick="onBuscarHerramientaId(${data[i].id});"><i class="fa fa-pencil-square-o"></i></button>`;
+        let btndelete = `<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>`;
         __table_herramientas__.row
           .add([
             i + 1,
@@ -55,7 +56,7 @@ async function listarData() {
             data[i].n_placa,
             data[i].precio_dia,
             data[i].precio_mes,
-            btndelete,
+            btnedit + " " + btndelete,
           ])
           .draw(false);
       }
@@ -66,6 +67,7 @@ async function listarData() {
 }
 
 onCrearHerramienta = async () => {
+  let id = $("#txtid").val(id);
   let txtnombre = $("#txtnombre").val();
   let cbotipo = $("#cbotipo").val();
   let txtmarca = $("#txtmarca").val();
@@ -78,6 +80,7 @@ onCrearHerramienta = async () => {
     url: `ajax/herramientas.ajax.php`,
     method: "GET",
     data: {
+      txtid: id,
       txtnombre: txtnombre,
       cbotipo: cbotipo,
       txtmarca: txtmarca,
@@ -95,6 +98,34 @@ onCrearHerramienta = async () => {
       swal({ type: "success", title: "Muy Bien!", html: data.message });
       onClear();
       listarData();
+    })
+    .fail(function (error) {
+      console.log(error);
+    });
+};
+
+onBuscarHerramientaId = async (id) => {
+  $("#txtid").val(id);
+  $("#mdlHerramienta").modal("show");
+  await $.ajax({
+    url: `ajax/herramientas.ajax.php`,
+    method: "GET",
+    data: {
+      id: id,
+      operation: "buscarID",
+    },
+    dataType: "JSON",
+  })
+    .done(function (data) {
+      console.log(data);
+      $("#txtnombre").val(data.nombre);
+      $("#cbotipo").val(data.id_herramienta);
+      $("#txtmarca").val(data.marca);
+      $("#txtmodelo").val(data.modelo);
+      $("#txtnserie").val(data.n_serie);
+      $("#txtnplaca").val(data.n_placa);
+      $("#txtpdia").val(data.precio_dia);
+      $("#txtpmes").val(data.precio_mes);
     })
     .fail(function (error) {
       console.log(error);

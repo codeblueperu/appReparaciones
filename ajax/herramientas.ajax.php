@@ -29,14 +29,15 @@ if ($_GET['operation'] === 'show') {
             "n_serie" => $a['n_serie'],
             "n_placa" => $a['n_placa'],
             "precio_dia" => $a['precio_dia'],
-            "precio_mes" => $a['precio_mes']
+            "precio_mes" => $a['precio_mes'],
         );
     }
 
     echo json_encode($data);
-} else if ($_GET['operation'] === 'create') {
+} else if ($_GET['operation'] === 'createupdate') {
 
     $datos = array(
+        'id' => $_GET['id'],
         'nombre' => $_GET['txtnombre'],
         'tipo' => $_GET['cbotipo'],
         'marca' => $_GET['txtmarca'],
@@ -46,11 +47,42 @@ if ($_GET['operation'] === 'show') {
         'precio_dia' => $_GET['txtpdia'],
         'precio_mes' => $_GET['txtpmes']
     );
+    $msg = "";
 
-    $msg = ControladorHerramientas::ctrCrearHerramienta($datos);
+    if (empty($_GET['id'])) {
+        $msg = ControladorHerramientas::ctrCrearHerramienta($datos);
+    } else {
+        $msg = ControladorHerramientas::ctrUpdateHerramienta($datos);
+    }
+
     $response = array('message' => $msg);
     echo json_encode($response);
 
+} else if ($_GET['operation'] === 'buscarID') {
+
+    $id = $_GET['id'];
+
+    $response = ControladorHerramientas::ctrMostrarHerramientas('', '');
+    $data = array();
+
+    foreach ($response as $a) {
+        if ($a['id'] == $id) {
+            $data = array(
+                "id" => $a['id'],
+                "nombre" => $a['nombre'],
+                "tipo_herramienta" => $a['tipo_herramienta'],
+                "marca" => $a['marca'],
+                "modelo" => $a['modelo'],
+                "n_serie" => $a['n_serie'],
+                "n_placa" => $a['n_placa'],
+                "precio_dia" => $a['precio_dia'],
+                "precio_mes" => $a['precio_mes'],
+                "id_herramienta" => $a['id_herramienta']
+            );
+            break;
+        }
+    }
+    echo json_encode($data);
 }
 
 

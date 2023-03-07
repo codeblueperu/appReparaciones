@@ -20,5 +20,15 @@ class ControladorHerramientas
         return $respuesta;
 
     }
+
+    static public function ctrUpdateHerramienta($datos)
+    {
+
+
+        $respuesta = ModeloHerramienta::mdlUpdateHerramientas($datos);
+
+        return $respuesta;
+
+    }
 }
 ?>
