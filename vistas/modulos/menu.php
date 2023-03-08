@@ -171,7 +171,7 @@
 
 					<li>
 
-						<a href="crear-arriendo">
+						<a href="arriendo">
 							
 							<i class="fa fa-circle-o"></i>
 							<span>Nuevo Arriendo</span>

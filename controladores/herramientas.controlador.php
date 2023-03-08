@@ -30,5 +30,21 @@ class ControladorHerramientas
         return $respuesta;
 
     }
+
+    static public function ctrDeleteHerramienta($id)
+    {
+
+
+        $respuesta = ModeloHerramienta::mdlDeleteHerramientas($id);
+
+        return $respuesta;
+
+    }
+
+    static public function ctrMostrarTipoHerramienta(){
+        $respuesta = ModeloHerramienta::mdlMostrarTipoHerramienta();
+
+        return $respuesta;
+    }
 }
 ?>

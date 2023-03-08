@@ -83,6 +83,25 @@ if ($_GET['operation'] === 'show') {
         }
     }
     echo json_encode($data);
+} else if ($_GET['operation'] === 'delete') {
+
+    $msg = ControladorHerramientas::ctrDeleteHerramienta($_GET['id']);
+    $response = array('message' => $msg);
+    echo json_encode($response);
+} else if ($_GET['operation'] === 'listaTipo') {
+
+    $response = ControladorHerramientas::ctrMostrarTipoHerramienta();
+    $data = array();
+
+    foreach ($response as $a) {
+            $data[] = array(
+                "id" => $a['id'],
+                "tipo_herramienta" => $a['tipo_herramienta']                
+            );
+            
+       
+    }
+    echo json_encode($data);
 }
 
 

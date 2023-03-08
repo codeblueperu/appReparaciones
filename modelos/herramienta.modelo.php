@@ -56,7 +56,7 @@ class ModeloHerramienta
     static public function mdlUpdateHerramientas($datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE herramientas SET nombre = :nombre, tipo = :tipo, marca = :marca, modelo = :modelo, n_serie = :n_serie, n_placa = :n_placa, precio_dia = :precio_dia, precio_mes = :precio_mes where id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE herramientas SET nombre = :nombre, tipo = :tipo, marca = :marca, modelo = :modelo, n_serie = :n_serie, n_placa = :n_placa, precio_dia = :precio_dia, precio_mes = :precio_mes WHERE id = :id");
 
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":tipo", $datos["tipo"], PDO::PARAM_STR);
@@ -66,11 +66,11 @@ class ModeloHerramienta
         $stmt->bindParam(":n_placa", $datos["n_placa"], PDO::PARAM_STR);
         $stmt->bindParam(":precio_dia", $datos["precio_dia"], PDO::PARAM_STR);
         $stmt->bindParam(":precio_mes", $datos["precio_mes"], PDO::PARAM_STR);
-        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
-            return "La herramienta fue creada con éxito.";
+            return "La herramienta fue actualizada con éxito.";
 
         } else {
 
@@ -79,6 +79,43 @@ class ModeloHerramienta
         }
 
         $stmt->close();
+        $stmt = null;
+
+    }
+
+    static public function mdlDeleteHerramientas($id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM herramientas WHERE id = :id");
+
+
+        $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+
+            return "La herramienta fue eliminado con éxito.";
+
+        } else {
+
+            return "error";
+
+        }
+
+        $stmt->close();
+        $stmt = null;
+
+    }
+
+    static public function mdlMostrarTipoHerramienta()
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM tipo_herramienta ");
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+
         $stmt = null;
 
     }

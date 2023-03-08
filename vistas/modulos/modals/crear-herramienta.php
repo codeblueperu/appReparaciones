@@ -16,13 +16,13 @@
 
                 <div class="box-body">
                     <div class="row">
-                        <input type="text" id="txtid">
+                        <input type="hidden" id="txtid">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">Nombre (*)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-cog"></i></span>
-                                    <input type="text" class="form-control" id="txtnombre">
+                                    <input type="text" class="form-control" id="txtnombre" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                             <label for="">Marca (*)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-newspaper-o"></i></span>
-                                    <input type="text" class="form-control" id="txtmarca">
+                                    <input type="text" class="form-control" id="txtmarca" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                             <label for="">Modelo (*)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-microchip"></i></span>
-                                    <input type="text" class="form-control" id="txtmodelo">
+                                    <input type="text" class="form-control" id="txtmodelo" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                             <label for="">N° Serie (*)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-credit-card-alt"></i></span>
-                                    <input type="text" class="form-control" id="txtnserie">
+                                    <input type="text" class="form-control" id="txtnserie" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                             <label for="">N° Placa (*)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-                                    <input type="text" class="form-control" id="txtnplaca">
+                                    <input type="text" class="form-control" id="txtnplaca" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                             <label for="">Precio Dia (*)</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                    <input type="number" class="form-control" id="txtpdia">
+                                    <input type="number" class="form-control" id="txtpdia" autocomplete="off">
                                 </div>
                             </div>
                         </div>

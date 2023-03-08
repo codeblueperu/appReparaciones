@@ -49,7 +49,7 @@ if($xml){
 
       <div class="box-header with-border">
 
-          <button class="btn btn-primary" data-toggle="modal" data-target="#mdlHerramienta">           
+          <button class="btn btn-primary" data-toggle="modal" data-target="#mdlHerramienta" onclick="onClear()">           
             Agregar Herramienta
           </button>
 
