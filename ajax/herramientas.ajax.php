@@ -3,7 +3,7 @@ require_once "../controladores/herramientas.controlador.php";
 require_once "../modelos/herramienta.modelo.php";
 
 
-class AjaxCategorias
+class AjaxHerramienta
 {
     public $idHerramientas;
 }
