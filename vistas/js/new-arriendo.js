@@ -1,75 +1,91 @@
-var __table_herramientas__ = $("#__table_herramienta__").DataTable({
-  deferRender: true,
-  retrieve: true,
-  processing: true,
-  language: {
-    sProcessing: "Procesando...",
-    sLengthMenu: "Mostrar _MENU_ registros",
-    sZeroRecords: "No se encontraron resultados",
-    sEmptyTable: "Ningún dato disponible en esta tabla",
-    sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-    sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-    sInfoPostFix: "",
-    sSearch: "Buscar:",
-    sUrl: "",
-    sInfoThousands: ",",
-    sLoadingRecords: "Cargando...",
-    oPaginate: {
-      sFirst: "Primero",
-      sLast: "Último",
-      sNext: "Siguiente",
-      sPrevious: "Anterior",
-    },
-    oAria: {
-      sSortAscending: ": Activar para ordenar la columna de manera ascendente",
-      sSortDescending:
-        ": Activar para ordenar la columna de manera descendente",
-    },
-  },
-});
+//================================ RUTA TOKEN ====================================//
+const urlParams = new URLSearchParams(window.location.search);
+var token_value = urlParams.get("token");
+//====================================================================//
 
-var __table_shopping__ = $("#__table_shopping__").DataTable({
-  paging: false,
-  lengthChange: true,
-  searching: false,
-  ordering: false,
-  info: true,
-  retrieve: true,
-  processing: true,
-  autoWidth: false,
-  language: {
-    sProcessing: "Procesando...",
-    sLengthMenu: "Mostrar _MENU_ registros",
-    sZeroRecords: "No se encontraron resultados",
-    sEmptyTable: "Ningún dato disponible en esta tabla",
-    sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-    sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-    sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-    sInfoPostFix: "",
-    sSearch: "Buscar:",
-    sUrl: "",
-    sInfoThousands: ",",
-    sLoadingRecords: "Cargando...",
-    oPaginate: {
-      sFirst: "Primero",
-      sLast: "Último",
-      sNext: "Siguiente",
-      sPrevious: "Anterior",
-    },
-    oAria: {
-      sSortAscending: ": Activar para ordenar la columna de manera ascendente",
-      sSortDescending:
-        ": Activar para ordenar la columna de manera descendente",
-    },
-  },
-});
+var __table_herramientas__ = "";
+var __table_shopping__ = "";
 
-listarHerramientas();
+function init() {
+  __table_herramientas__ = $("#__table_herramienta__").DataTable({
+    deferRender: true,
+    retrieve: true,
+    processing: true,
+    language: {
+      sProcessing: "Procesando...",
+      sLengthMenu: "Mostrar _MENU_ registros",
+      sZeroRecords: "No se encontraron resultados",
+      sEmptyTable: "Ningún dato disponible en esta tabla",
+      sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+      sInfoPostFix: "",
+      sSearch: "Buscar:",
+      sUrl: "",
+      sInfoThousands: ",",
+      sLoadingRecords: "Cargando...",
+      oPaginate: {
+        sFirst: "Primero",
+        sLast: "Último",
+        sNext: "Siguiente",
+        sPrevious: "Anterior",
+      },
+      oAria: {
+        sSortAscending:
+          ": Activar para ordenar la columna de manera ascendente",
+        sSortDescending:
+          ": Activar para ordenar la columna de manera descendente",
+      },
+    },
+  });
 
-$("#txtfarriendo").val(moment(new Date()).format("yyyy-MM-DD"));
-$("#txtfdevolucion").val(moment(new Date()).add(1, "d").format("yyyy-MM-DD"));
-onCalcularfechas();
+  __table_shopping__ = $("#__table_shopping__").DataTable({
+    paging: false,
+    lengthChange: true,
+    searching: false,
+    ordering: false,
+    info: true,
+    retrieve: true,
+    processing: true,
+    autoWidth: false,
+    language: {
+      sProcessing: "Procesando...",
+      sLengthMenu: "Mostrar _MENU_ registros",
+      sZeroRecords: "No se encontraron resultados",
+      sEmptyTable: "Ningún dato disponible en esta tabla",
+      sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+      sInfoPostFix: "",
+      sSearch: "Buscar:",
+      sUrl: "",
+      sInfoThousands: ",",
+      sLoadingRecords: "Cargando...",
+      oPaginate: {
+        sFirst: "Primero",
+        sLast: "Último",
+        sNext: "Siguiente",
+        sPrevious: "Anterior",
+      },
+      oAria: {
+        sSortAscending:
+          ": Activar para ordenar la columna de manera ascendente",
+        sSortDescending:
+          ": Activar para ordenar la columna de manera descendente",
+      },
+    },
+  });
+
+  listarHerramientas();
+
+  $("#txtfarriendo").val(moment(new Date()).format("yyyy-MM-DD"));
+  $("#txtfdevolucion").val(moment(new Date()).add(1, "d").format("yyyy-MM-DD"));
+  if (token_value != null) {
+    buscarDatosArriendo(token_value);
+    $("#txtfdevolucion").val(moment(new Date()).format("yyyy-MM-DD"));
+  }
+  onCalcularfechas();
+}
 
 async function listarHerramientas() {
   await $.ajax({
@@ -79,7 +95,6 @@ async function listarHerramientas() {
     data: { operation: "show", buscar: "" },
   })
     .done(function (data) {
-      console.log(data);
       __table_herramientas__.clear().draw();
 
       for (let i = 0; i < data.length; i++) {
@@ -102,7 +117,6 @@ async function listarHerramientas() {
 }
 
 addservice = (id, nombre, pdia, pmes) => {
-  console.log(nombre);
   let dias = parseInt($("#txtdias").val());
   let periodo = $("#cboperiodo").val();
   let precio = 0;
@@ -127,15 +141,41 @@ addservice = (id, nombre, pdia, pmes) => {
       '<a href="#" id="botoneliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>',
     ])
     .draw(false);
+  onCalcularTotales();
 };
 
 $("#__table_shopping__ tbody").on("click", "#botoneliminar", function () {
   __table_shopping__.row($(this).parents("tr")).remove().draw();
-  // mostrarTotal();
+  onCalcularTotales();
 });
 
+onCalcularTotales = () => {
+  let i = 0;
+  let subtotal = 0;
+  $("#__table_shopping__ tr").each(function () {
+    if (i != 0) {
+      subtotal += parseFloat($(this).find("td").eq(4).html());
+    }
+    i++;
+  });
+  $("#txtsubtotal").val(parseFloat(subtotal).toFixed(2));
+  /* CALCULAR IVA */
+  let iva = 0;
+  if ($("#chkiva").prop("checked")) {
+    iva = parseFloat(subtotal).toFixed(2) * 0.19;
+  }
+  let total = parseFloat(subtotal) + parseFloat(iva);
+  $("#txtiva").val(parseFloat(iva).toFixed(2));
+  $("#txttotal").val(parseFloat(total).toFixed(2));
+};
+
 onUpdateTable = () => {
-  i = 0;
+  let pagetable = __table_shopping__.page.info();
+  let cntherramientas = pagetable.recordsTotal;
+  if (cntherramientas === 0) {
+    return false;
+  }
+  let i = 0;
   let suma = 0.0;
   let periodo = $("#cboperiodo").val();
   let dias = parseInt($("#txtdias").val());
@@ -176,38 +216,61 @@ onUpdateTable = () => {
     }
     i++;
   });
+  onCalcularTotales();
 };
 
-onProcesar =  () => {
+onProcesar = () => {
   let pagetable = __table_shopping__.page.info();
   let cntherramientas = pagetable.recordsTotal;
   /* VALIDAMOS QUE EL CARRITO DE HERRAMIENTAS NO ESTE VACIO */
-  if (cntherramientas == 0) {
+  if (cntherramientas > 0) {
+    /* DATOS DE LA CABECERA */
     let datos = {
-      txtiduser: $("#txtiduser").val(),
-      cbocliente: $("#cbocliente").val(),
-      txtbanco: $("#txtbanco").val(),
-      txtnch: $("#txtnch").val(),
-      txtplaza: $("#txtplaza").val(),
-      txtncomprobante: $("#txtncomprobante").val(),
-      txtfarriendo: moment($("#txtfarriendo").val()),
-      txtfdevolucion: moment($("#txtfdevolucion").val()),
-      cboperiodo: $("#cboperiodo").val(),
-      txtobs: $("#txtobs").val(),
+      id_usuario: $("#txtiduser").val(),
+      id_cliente: $("#cbocliente").val(),
+      banco: $("#txtbanco").val(),
+      numero_ch: $("#txtnch").val(),
+      plaza: $("#txtplaza").val(),
+      numero_ord_compra: $("#txtncomprobante").val(),
+      fecha_arrienda: $("#txtfarriendo").val(),
+      fecha_devolucion: $("#txtfdevolucion").val(),
+      periodo: $("#cboperiodo").val(),
+      observacion: $("#txtobs").val(),
+      subtotal: $("#txtsubtotal").val(),
+      iva: $("#txtiva").val(),
+      total_pagar: $("#txttotal").val(),
+      estado: 1,
     };
 
-    let forData = new FormData();
-    forData.append("datos", JSON.stringify(datos));
-    forData.append("operation", 'createupdate');
+    /* DATOS DEL DETALLE */
+    let i = 0;
+    let detalle = [];
+    $("#__table_shopping__ tr").each(function () {
+      if (i != 0) {
+        precio = 0;
+        if ($("#cboperiodo").val() === "1") {
+          precio = $(this).find("td").eq(2).find("input:eq(0)").val();
+        } else {
+          precio = $(this).find("td").eq(2).find("input:eq(1)").val();
+        }
+        detalle.push({
+          id_herramienta: $(this).find("td").eq(0).html(),
+          precio: precio,
+          tiempo: $(this).find("td").eq(3).html(),
+          total: $(this).find("td").eq(4).html(),
+        });
+      }
+      i++;
+    });
 
-     $.ajax({
+    $.ajax({
       url: `ajax/arriendo.ajax.php`,
       method: "GET",
-      data: forData,
+      data: { operation: "createupdate", datos: datos, detalle: detalle },
       dataType: "JSON",
     })
       .done(function (data) {
-        console.log(data)
+        console.log(data);
       })
       .fail(function (error) {
         console.log(error);
@@ -229,3 +292,98 @@ function onCalcularfechas() {
     $("#txtdias").val(txtfdevolucion.diff(txtfarriendo, "days") + " Dia(s)");
   }
 }
+
+function buscarDatosArriendo(token) {
+  $.ajax({
+    url: `ajax/arriendo.ajax.php`,
+    type: "GET",
+    dataType: "json",
+    data: { operation: "buscararriendo", id: token },
+  })
+    .done(function ({data,detalle}) {
+      console.log(detalle);
+      $("#cbocliente").val(data.id_cliente);
+      $("#txtbanco").val(data.banco);
+      $("#txtnch").val(data.numero_ch);
+      $("#txtplaza").val(data.plaza);
+      $("#txtncomprobante").val(data.numero_ord_compra);
+      $("#txtfarriendo").val(moment(data.fecha_arrienda).format("yyyy-MM-DD"));
+      //$("#txtfdevolucion").val(data.);
+      $("#cboperiodo").val(data.periodo);
+      $("#txtobs").val(data.observacion);
+      $("#txtsubtotal").val(data.subtotal);
+      $("#txtiva").val(data.iva);
+      $("#txttotal").val(data.total_pagar);
+
+      for (let i = 0; i < detalle.length; i++) {
+        addservice(detalle[i].id_herramienta, detalle[i].nombre, detalle[i].precio_dia, detalle[i].precio_mes);
+      }
+    })
+    .fail(function (error) {
+      console.log(error);
+    });
+   
+}
+
+onCerrarProcesoArriendo = () => {
+  let pagetable = __table_shopping__.page.info();
+  let cntherramientas = pagetable.recordsTotal;
+  /* VALIDAMOS QUE EL CARRITO DE HERRAMIENTAS NO ESTE VACIO */
+  if (cntherramientas > 0) {
+    /* DATOS DE LA CABECERA */
+    let datos = {
+      id_usuario: $("#txtiduser").val(),
+      id_cliente: $("#cbocliente").val(),
+      banco: $("#txtbanco").val(),
+      numero_ch: $("#txtnch").val(),
+      plaza: $("#txtplaza").val(),
+      numero_ord_compra: $("#txtncomprobante").val(),
+      fecha_arrienda: $("#txtfarriendo").val(),
+      fecha_devolucion: $("#txtfdevolucion").val(),
+      periodo: $("#cboperiodo").val(),
+      observacion: $("#txtobs").val(),
+      subtotal: $("#txtsubtotal").val(),
+      iva: $("#txtiva").val(),
+      total_pagar: $("#txttotal").val(),
+      estado: 1,
+    };
+
+    /* DATOS DEL DETALLE */
+    let i = 0;
+    let detalle = [];
+    $("#__table_shopping__ tr").each(function () {
+      if (i != 0) {
+        precio = 0;
+        if ($("#cboperiodo").val() === "1") {
+          precio = $(this).find("td").eq(2).find("input:eq(0)").val();
+        } else {
+          precio = $(this).find("td").eq(2).find("input:eq(1)").val();
+        }
+        detalle.push({
+          id_herramienta: $(this).find("td").eq(0).html(),
+          precio: precio,
+          tiempo: $(this).find("td").eq(3).html(),
+          total: $(this).find("td").eq(4).html(),
+        });
+      }
+      i++;
+    });
+
+    $.ajax({
+      url: `ajax/arriendo.ajax.php`,
+      method: "GET",
+      data: { operation: "createupdate", datos: datos, detalle: detalle },
+      dataType: "JSON",
+    })
+      .done(function (data) {
+        console.log(data);
+      })
+      .fail(function (error) {
+        console.log(error);
+      });
+  } else {
+    alert("Vacio");
+  }
+};
+
+init();

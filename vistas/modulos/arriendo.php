@@ -50,21 +50,22 @@ if ($_SESSION["perfil"] == "Especial") {
 
             <div class="box-body">
 
-                <table id="__table_herramienta__" class="table table-bordered table-striped dt-responsive" width="100%">
+                <table id="__table_arriendo__" class="table table-bordered table-striped dt-responsive" width="100%">
 
                     <thead>
 
                         <tr>
 
                             <th style="width:10px">#</th>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>N° Serie</th>
-                            <th>N° Placa</th>
-                            <th>Precio Dia</th>
-                            <th>Precio Mes</th>
+                            <th>Cliente</th>
+                            <th>N° Documento</th>
+                            <th>N° Comprobante</th>
+                            <th>Fecha Arriendo</th>
+                            <th>SubTotal</th>
+                            <th>IVA</th>
+                            <th>Total</th>
+                            <th>Periodo</th>
+                            <th>Estado</th>
                             <th></th>
 
                         </tr>
@@ -90,4 +91,4 @@ if ($_SESSION["perfil"] == "Especial") {
 
 </div>
 
-<script src="vistas/js/herramientas.js"></script>
+<script src="vistas/js/arriendo.js"></script>

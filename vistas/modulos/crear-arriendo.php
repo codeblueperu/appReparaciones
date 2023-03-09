@@ -188,13 +188,22 @@ if ($_SESSION["perfil"] == "Especial") {
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div  style="display:flex;gap:7px;justify-content: center; align-items: center;">
+                                    <label for="chkiva">Aplicar IVA (19%) <input type="checkbox" name="chkiva" id="chkiva" onchange="onCalcularTotales()" ></label>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="row">
                             <div class="table-responsive col-md-12">
                                 <table id="__table_shopping__" class="table table-bordered table-striped dt-responsive">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>COD</th>
                                             <th>Descripcion</th>
                                             <th>Precio</th>
                                             <th>Tiempo</th>
@@ -202,8 +211,24 @@ if ($_SESSION["perfil"] == "Especial") {
                                             <th></th>
                                         </tr>
                                     </thead>
-
+                                    <tbody></tbody>                                  
                                 </table>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="cont_foot" style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
+                                            <label>SUBTOTAL:</label>
+                                            <b><input type="number" id="txtsubtotal" class="form-control" readonly></b>
+                                        </div>
+                                        <div class="cont_foot" style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
+                                            <label>IVA 19%:</label>
+                                            <b><input type="number" id="txtiva" class="form-control" readonly></b>
+                                        </div>
+                                        <div class="cont_foot" style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
+                                            <label>TOTAL:</label>
+                                            <b><input type="number" id="txttotal" class="form-control" readonly></b>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

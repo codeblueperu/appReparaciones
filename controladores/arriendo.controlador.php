@@ -2,10 +2,37 @@
 
 class ControladorArriendo
 {
-    static public function ctrCrearArriendo($datos)
+    static public function ctrMostrarArriendo($search)
     {
 
-        $respuesta = ModeloArriendo::mdlCrearArriendo($datos);
+        $respuesta = ModeloArriendo::mdlMostrarArriendo($search);
+
+        return $respuesta;
+
+    }
+
+    static public function ctrCrearArriendo($datos,$detalle)
+    {
+
+        $respuesta = ModeloArriendo::mdlCrearArriendo($datos,$detalle);
+
+        return $respuesta;
+
+    }
+
+    static public function ctrBuscarArriendoID($id)
+    {
+
+        $respuesta = ModeloArriendo::mdlBuscarArriendoID($id);
+
+        return $respuesta;
+
+    }
+
+    static public function ctrBuscarDetalleArriendoID($id)
+    {
+
+        $respuesta = ModeloArriendo::mdlBuscarDetalleArriendoID($id);
 
         return $respuesta;
 
