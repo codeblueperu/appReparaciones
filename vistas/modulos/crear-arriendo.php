@@ -41,7 +41,7 @@ if ($_SESSION["perfil"] == "Especial") {
                 <div class="box box-primary">
                     <div class="box-header with-border">Datos del Arriendo</div>
                     <div class="box-body">
-                        <input type="hidden" value="<?= $_SESSION["id"]?>" id="txtiduser">
+                        <input type="hidden" value="<?= $_SESSION["id"] ?>" id="txtiduser">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -154,7 +154,8 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <label for="txtdias">Dias Transcurridos (*)</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="txtdias" id="txtdias" class="form-control" value="0" disabled>
+                                        <input type="text" name="txtdias" id="txtdias" class="form-control" value="0"
+                                            disabled>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +177,7 @@ if ($_SESSION["perfil"] == "Especial") {
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="txtobs">Observacion</label>
                                     <div class="input-group">
@@ -186,13 +187,27 @@ if ($_SESSION["perfil"] == "Especial") {
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="txtobs">Estado</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file"></i></span>
+                                        <select name="cboestado" id="cboestado" class="form-control">
+                                            <option value="1">Prestar</option>
+                                            <option value="2">Anular</option>
+                                            <option value="0">Devolver</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row">                            
                             <div class="col-md-12">
-                                <div  style="display:flex;gap:7px;justify-content: center; align-items: center;">
-                                    <label for="chkiva">Aplicar IVA (19%) <input type="checkbox" name="chkiva" id="chkiva" onchange="onCalcularTotales()" ></label>
-                                    
+                                <div style="display:flex;gap:7px;justify-content: center; align-items: center;">
+                                    <label for="chkiva">Aplicar IVA (19%) <input type="checkbox" name="chkiva"
+                                            id="chkiva" onchange="onCalcularTotales()"></label>
+
                                 </div>
                             </div>
                         </div>
@@ -211,19 +226,22 @@ if ($_SESSION["perfil"] == "Especial") {
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>                                  
+                                    <tbody></tbody>
                                 </table>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="cont_foot" style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
+                                        <div class="cont_foot"
+                                            style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
                                             <label>SUBTOTAL:</label>
                                             <b><input type="number" id="txtsubtotal" class="form-control" readonly></b>
                                         </div>
-                                        <div class="cont_foot" style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
+                                        <div class="cont_foot"
+                                            style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
                                             <label>IVA 19%:</label>
                                             <b><input type="number" id="txtiva" class="form-control" readonly></b>
                                         </div>
-                                        <div class="cont_foot" style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
+                                        <div class="cont_foot"
+                                            style="display:flex;flex-direction: row;justify-content: end;gap:15px;margin-bottom: 5px;">
                                             <label>TOTAL:</label>
                                             <b><input type="number" id="txttotal" class="form-control" readonly></b>
                                         </div>
@@ -234,10 +252,13 @@ if ($_SESSION["perfil"] == "Especial") {
 
                         <div class="row" style="margin-top: 15px;">
                             <div class="col-md-12" style="display:flex; flex-direction: row;justify-content: end;">
-                                <button class="btn btn-success mt-5" style="width:150px;" onclick="onProcesar()">Procesar Arriendo</button>
+                                <button class="btn btn-success mt-5" id="btn-save" style="width:150px;"
+                                    onclick="onProcesar()">Procesar Arriendo</button>
+                                <button class="btn btn-danger mt-5" id="btn-cerrar" style="width:150px;"
+                                    onclick="onCerrarProcesoArriendo()">Cerrar Arriendo</button>
                             </div>
                         </div>
-                                            
+
                     </div>
                 </div>
             </div>

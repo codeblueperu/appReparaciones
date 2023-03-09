@@ -79,10 +79,15 @@ function init() {
   listarHerramientas();
 
   $("#txtfarriendo").val(moment(new Date()).format("yyyy-MM-DD"));
-  $("#txtfdevolucion").val(moment(new Date()).add(1, "d").format("yyyy-MM-DD"));
+  $("#txtfdevolucion").val(moment(new Date()).format("yyyy-MM-DD"));
+  //$("#txtfdevolucion").val(moment(new Date()).add(1, "d").format("yyyy-MM-DD"));
   if (token_value != null) {
     buscarDatosArriendo(token_value);
     $("#txtfdevolucion").val(moment(new Date()).format("yyyy-MM-DD"));
+    $("#btn-save").css("display", "none");
+    $("#btn-cerrar").css("display", "block");
+  } else {
+    $("#btn-cerrar").css("display", "none");
   }
   onCalcularfechas();
 }
@@ -270,13 +275,16 @@ onProcesar = () => {
       dataType: "JSON",
     })
       .done(function (data) {
-        console.log(data);
+        swal({ type: "success", title: "Bien echo!", text: data.message });
+        setTimeout(() => {
+          window.location.href = "arriendo";
+        }, 2000);
       })
       .fail(function (error) {
         console.log(error);
       });
   } else {
-    alert("Vacio");
+    swal({ type: "warning", title: "Upps!", text: 'Todo los campos son Obligatorios' });
   }
 };
 
@@ -300,7 +308,7 @@ function buscarDatosArriendo(token) {
     dataType: "json",
     data: { operation: "buscararriendo", id: token },
   })
-    .done(function ({data,detalle}) {
+    .done(function ({ data, detalle }) {
       console.log(detalle);
       $("#cbocliente").val(data.id_cliente);
       $("#txtbanco").val(data.banco);
@@ -314,15 +322,24 @@ function buscarDatosArriendo(token) {
       $("#txtsubtotal").val(data.subtotal);
       $("#txtiva").val(data.iva);
       $("#txttotal").val(data.total_pagar);
+      $("#cboestado").val(0);
+      if (data.iva != 0) {
+        $("#chkiva").prop("checked", true);
+      }
+      onCalcularfechas();
 
       for (let i = 0; i < detalle.length; i++) {
-        addservice(detalle[i].id_herramienta, detalle[i].nombre, detalle[i].precio_dia, detalle[i].precio_mes);
+        addservice(
+          detalle[i].id_herramienta,
+          detalle[i].nombre,
+          detalle[i].precio_dia,
+          detalle[i].precio_mes
+        );
       }
     })
     .fail(function (error) {
       console.log(error);
     });
-   
 }
 
 onCerrarProcesoArriendo = () => {
@@ -332,6 +349,7 @@ onCerrarProcesoArriendo = () => {
   if (cntherramientas > 0) {
     /* DATOS DE LA CABECERA */
     let datos = {
+      id_arriendo: token_value,
       id_usuario: $("#txtiduser").val(),
       id_cliente: $("#cbocliente").val(),
       banco: $("#txtbanco").val(),
@@ -345,7 +363,7 @@ onCerrarProcesoArriendo = () => {
       subtotal: $("#txtsubtotal").val(),
       iva: $("#txtiva").val(),
       total_pagar: $("#txttotal").val(),
-      estado: 1,
+      estado: $("#cboestado").val(),
     };
 
     /* DATOS DEL DETALLE */
@@ -360,6 +378,7 @@ onCerrarProcesoArriendo = () => {
           precio = $(this).find("td").eq(2).find("input:eq(1)").val();
         }
         detalle.push({
+          id_arriendo: token_value,
           id_herramienta: $(this).find("td").eq(0).html(),
           precio: precio,
           tiempo: $(this).find("td").eq(3).html(),
@@ -372,17 +391,25 @@ onCerrarProcesoArriendo = () => {
     $.ajax({
       url: `ajax/arriendo.ajax.php`,
       method: "GET",
-      data: { operation: "createupdate", datos: datos, detalle: detalle },
+      data: {
+        operation: "cerrararriendo",
+        datos: datos,
+        detalle: detalle,
+        id_arriendo: token_value,
+      },
       dataType: "JSON",
     })
       .done(function (data) {
-        console.log(data);
+        swal({ type: "success", title: "Bien echo!", text: data.message });
+        setTimeout(() => {
+          window.location.href = "arriendo";
+        }, 2000);
       })
       .fail(function (error) {
         console.log(error);
       });
   } else {
-    alert("Vacio");
+    swal({ type: "warning", title: "Upps!", text: 'Todo los campos son Obligatorios' });
   }
 };
 

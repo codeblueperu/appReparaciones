@@ -43,8 +43,8 @@ var __table_arriendo__ = $("#__table_arriendo__").DataTable({
         __table_arriendo__.clear().draw();
   
         for (let i = 0; i < data.length; i++) {
-            let estado = (data[i].estado == '1' ? `<span class="badge btn-danger">Pendiente</span>` : `<span class="badge btn-success">Entregado</span>`)
-          let btnedit = `<button class="btn btn-warning btn-sm" onclick="onUpdateArriendo(${data[i].id_arriendo});"><i class="fa fa-pencil-square-o"></i></button>`;
+            let estado = (data[i].estado == '1' ? `<span class="badge btn-warning">Pendiente</span>` : (data[i].estado == '2' ? `<span class="badge btn-danger">Anulado</span>` : `<span class="badge btn-success">Entregado</span>`))
+          let btnedit = `<button class="btn btn-success btn-xs" onclick="onUpdateArriendo(${data[i].id_arriendo});"><i class="fa fa-check-square-o"></i></button>`;
           
           __table_arriendo__.row
             .add([
@@ -58,7 +58,7 @@ var __table_arriendo__ = $("#__table_arriendo__").DataTable({
               data[i].total_pagar,
               data[i].periodo,
               estado,
-              btnedit
+              (data[i].estado == '1' ? btnedit : '')
             ])
             .draw(false);
         }

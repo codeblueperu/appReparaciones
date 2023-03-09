@@ -28,17 +28,17 @@ if ($_GET['operation'] === 'show') {
             "total_pagar" => $a['total_pagar'],
             "periodo" => $a['periodo'],
             "usuario" => $a['usuario'],
-            "estado" => $a['estado']            
+            "estado" => $a['estado']
         );
     }
 
     echo json_encode($data);
-}else if ($_GET['operation'] === 'createupdate') {
+} else if ($_GET['operation'] === 'createupdate') {
     $datos = $_GET['datos'];
-  $msg=  ControladorArriendo::ctrCrearArriendo($datos,$_GET['detalle']);
-   $response = array('message' => $msg);
+    $msg = ControladorArriendo::ctrCrearArriendo($datos, $_GET['detalle']);
+    $response = array('message' => $msg);
     echo json_encode($response);
-}else if($_GET['operation'] === 'buscararriendo'){
+} else if ($_GET['operation'] === 'buscararriendo') {
     $id = $_GET['id'];
     $dtarriendo = ControladorArriendo::ctrBuscarArriendoID($id);
     $data = array();
@@ -57,9 +57,9 @@ if ($_GET['operation'] === 'show') {
             "fecha_arrienda" => $a['fecha_arrienda'],
             "fecha_devolucion" => $a['fecha_devolucion'],
             "subtotal" => $a['subtotal'],
-            "iva" => $a['iva'], 
-            "total_pagar" => $a['total_pagar'], 
-            "estado" => $a['estado']            
+            "iva" => $a['iva'],
+            "total_pagar" => $a['total_pagar'],
+            "estado" => $a['estado']
         );
     }
 
@@ -73,14 +73,19 @@ if ($_GET['operation'] === 'show') {
             "precio" => $a['precio'],
             "tiempo" => $a['tiempo'],
             "total" => $a['total'],
-            "nombre" => $a['nombre'], 
-            "precio_dia" => $a['precio_dia'], 
-            "precio_mes" => $a['precio_mes']            
+            "nombre" => $a['nombre'],
+            "precio_dia" => $a['precio_dia'],
+            "precio_mes" => $a['precio_mes']
         );
     }
 
-    $response = array('data' => $data,'detalle' => $datadetalle);
+    $response = array('data' => $data, 'detalle' => $datadetalle);
 
+    echo json_encode($response);
+} else if ($_GET['operation'] === 'cerrararriendo') {
+    $datos = $_GET['datos'];
+    $msg = ControladorArriendo::ctrCerrarArriendo($datos, $_GET['detalle'],$_GET['id_arriendo']);
+    $response = array('message' => $msg);
     echo json_encode($response);
 }
 ?>

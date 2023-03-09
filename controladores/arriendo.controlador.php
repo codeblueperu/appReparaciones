@@ -37,5 +37,14 @@ class ControladorArriendo
         return $respuesta;
 
     }
+
+    static public function ctrCerrarArriendo($datos,$detalle,$id_arriendo)
+    {
+
+        $respuesta = ModeloArriendo::mdlCerrarArriendo($datos,$detalle,$id_arriendo);
+
+        return $respuesta;
+
+    }
 }
 ?>
