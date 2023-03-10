@@ -28,7 +28,9 @@ if ($_GET['operation'] === 'show') {
             "total_pagar" => $a['total_pagar'],
             "periodo" => $a['periodo'],
             "usuario" => $a['usuario'],
-            "estado" => $a['estado']
+            "estado" => $a['estado'],
+            "h_arriendo" => $a['h_arriendo'],
+            "h_devolucion" => $a['h_devolucion']
         );
     }
 
@@ -59,7 +61,9 @@ if ($_GET['operation'] === 'show') {
             "subtotal" => $a['subtotal'],
             "iva" => $a['iva'],
             "total_pagar" => $a['total_pagar'],
-            "estado" => $a['estado']
+            "estado" => $a['estado'],
+            "h_arriendo" => $a['h_arriendo'],
+            "h_devolucion" => $a['h_devolucion'],
         );
     }
 

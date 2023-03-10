@@ -140,15 +140,41 @@ if ($_SESSION["perfil"] == "Especial") {
 
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    <label for="dtphorasalida">Hora Arriendo (*)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="time" name="dtphorasalida" id="dtphorasalida" class="form-control"
+                                            onchange="onCalcularfechas();onUpdateTable()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label for="txtfdevolucion">Fecha Devolución (*)</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         <input type="date" name="txtfdevolucion" id="txtfdevolucion"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="dtphoraingreso">Hora Devolución (*)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="time" name="dtphoraingreso" id="dtphoraingreso"
                                             class="form-control" onchange="onCalcularfechas();onUpdateTable()">
                                     </div>
                                 </div>
                             </div>
 
+
+
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="txtdias">Dias Transcurridos (*)</label>
@@ -174,20 +200,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                 </div>
                             </div>
 
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="txtobs">Observacion</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-file"></i></span>
-                                        <textarea name="txtobs" id="txtobs" class="form-control" cols="30"
-                                            rows="2"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="txtobs">Estado</label>
                                     <div class="input-group">
@@ -200,14 +213,26 @@ if ($_SESSION["perfil"] == "Especial") {
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">                            
-                            <div class="col-md-12">
-                                <div style="display:flex;gap:7px;justify-content: center; align-items: center;">
+                            <div class="col-md-3">
+                                <div style="display:flex;flex-direction: column;gap:7px;justify-content: center; align-items: center;margin-top:18px;">
                                     <label for="chkiva">Aplicar IVA (19%) <input type="checkbox" name="chkiva"
                                             id="chkiva" onchange="onCalcularTotales()"></label>
 
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="txtobs">Observacion</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file"></i></span>
+                                        <textarea name="txtobs" id="txtobs" class="form-control" cols="30"
+                                            rows="2"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>

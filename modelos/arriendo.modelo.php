@@ -12,7 +12,7 @@ class ModeloArriendo
     static public function mdlMostrarArriendo($search)
     {
         $stmt = Conexion::conectar()->prepare("SELECT a.id_arriendo,a.id_cliente,c.nombre,c.documento,a.numero_ord_compra,
-        a.fecha_arrienda,a.subtotal,a.iva,a.total_pagar,case a.periodo when '1' then 'DIARIO' else 'MENSUAL' end as periodo,u.usuario, a.estado 
+        a.fecha_arrienda,a.subtotal,a.iva,a.total_pagar,case a.periodo when '1' then 'DIARIO' else 'MENSUAL' end as periodo,u.usuario, a.estado ,a.h_arriendo,a.h_devolucion
          FROM arriendo a, clientes c, usuarios u where a.id_cliente = c.id and a.id_usuario  = u.id ORDER BY a.id_arriendo desc");
 
         $stmt->execute();
@@ -27,9 +27,8 @@ class ModeloArriendo
 
     static public function mdlCrearArriendo($datos,$detalle)
     {
-
-        $stmt = Conexion::conectar()->prepare("INSERT INTO arriendo (id_cliente, id_usuario, banco, numero_ch, plaza, numero_ord_compra, periodo, observacion, fecha_arrienda,fecha_devolucion,subtotal,iva,total_pagar,estado)
-         VALUES (:id_cliente, :id_usuario, :banco, :numero_ch, :plaza, :numero_ord_compra, :periodo, :observacion, :fecha_arrienda, :fecha_devolucion, :subtotal, :iva, :total_pagar, :estado)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO arriendo (id_cliente, id_usuario, banco, numero_ch, plaza, numero_ord_compra, periodo, observacion, fecha_arrienda,h_arriendo,fecha_devolucion,h_devolucion,subtotal,iva,total_pagar,estado)
+         VALUES (:id_cliente, :id_usuario, :banco, :numero_ch, :plaza, :numero_ord_compra, :periodo, :observacion, :fecha_arrienda, :h_arriendo, :fecha_devolucion, :h_devolucion, :subtotal, :iva, :total_pagar, :estado)");
 
         $stmt->bindParam(":id_cliente", $datos["id_cliente"], PDO::PARAM_INT);
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
@@ -40,7 +39,9 @@ class ModeloArriendo
         $stmt->bindParam(":periodo", $datos["periodo"], PDO::PARAM_STR);
         $stmt->bindParam(":observacion", $datos["observacion"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_arrienda", $datos["fecha_arrienda"], PDO::PARAM_STR);
+        $stmt->bindParam(":h_arriendo", $datos["h_arriendo"], PDO::PARAM_STR);       
         $stmt->bindParam(":fecha_devolucion", $datos["fecha_devolucion"], PDO::PARAM_STR);
+        $stmt->bindParam(":h_devolucion", $datos["h_devolucion"], PDO::PARAM_STR);
         $stmt->bindParam(":subtotal", $datos["subtotal"], PDO::PARAM_STR);
         $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_STR);
         $stmt->bindParam(":total_pagar", $datos["total_pagar"], PDO::PARAM_STR);
@@ -104,10 +105,10 @@ class ModeloArriendo
 
     static public function mdlCerrarArriendo($datos,$detalle,$id_Arriendo)
     {
-
+       
         /* ACTUALIZAMOS LOS DATOS DEL ARRIENDO */
         $stmt = Conexion::conectar()->prepare("UPDATE arriendo SET id_cliente = :id_cliente, id_usuario = :id_usuario, banco = :banco, numero_ch = :numero_ch, plaza = :plaza
-            , numero_ord_compra = :numero_ord_compra, periodo =  :periodo, observacion = :observacion, fecha_arrienda = :fecha_arrienda ,fecha_devolucion = :fecha_devolucion, 
+            , numero_ord_compra = :numero_ord_compra, periodo =  :periodo, observacion = :observacion, fecha_arrienda = :fecha_arrienda,h_arriendo = :h_arriendo ,fecha_devolucion = :fecha_devolucion,h_devolucion =  :h_devolucion, 
             subtotal = :subtotal, iva = :iva,total_pagar = :total_pagar,estado = :estado where id_arriendo = :id_arriendo ");
 
         $stmt->bindParam(":id_cliente", $datos["id_cliente"], PDO::PARAM_INT);
@@ -119,7 +120,9 @@ class ModeloArriendo
         $stmt->bindParam(":periodo", $datos["periodo"], PDO::PARAM_STR);
         $stmt->bindParam(":observacion", $datos["observacion"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_arrienda", $datos["fecha_arrienda"], PDO::PARAM_STR);
+        $stmt->bindParam(":h_arriendo", $datos["h_arriendo"], PDO::PARAM_STR);       
         $stmt->bindParam(":fecha_devolucion", $datos["fecha_devolucion"], PDO::PARAM_STR);
+        $stmt->bindParam(":h_devolucion", $datos["h_devolucion"], PDO::PARAM_STR);
         $stmt->bindParam(":subtotal", $datos["subtotal"], PDO::PARAM_STR);
         $stmt->bindParam(":iva", $datos["iva"], PDO::PARAM_STR);
         $stmt->bindParam(":total_pagar", $datos["total_pagar"], PDO::PARAM_STR);

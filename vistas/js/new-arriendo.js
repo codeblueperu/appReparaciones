@@ -86,8 +86,12 @@ function init() {
     $("#txtfdevolucion").val(moment(new Date()).format("yyyy-MM-DD"));
     $("#btn-save").css("display", "none");
     $("#btn-cerrar").css("display", "block");
+    $("#dtphoraingreso").val(moment(new Date()).format("HH:mm"));
   } else {
     $("#btn-cerrar").css("display", "none");
+    setInterval(() => {
+      $("#dtphorasalida").val(moment(new Date()).format("HH:mm"));
+    }, 1000);
   }
   onCalcularfechas();
 }
@@ -238,7 +242,9 @@ onProcesar = () => {
       plaza: $("#txtplaza").val(),
       numero_ord_compra: $("#txtncomprobante").val(),
       fecha_arrienda: $("#txtfarriendo").val(),
+      h_arriendo:$("#dtphorasalida").val(),
       fecha_devolucion: $("#txtfdevolucion").val(),
+      h_devolucion:$("#dtphoraingreso").val(),
       periodo: $("#cboperiodo").val(),
       observacion: $("#txtobs").val(),
       subtotal: $("#txtsubtotal").val(),
@@ -323,6 +329,9 @@ function buscarDatosArriendo(token) {
       $("#txtiva").val(data.iva);
       $("#txttotal").val(data.total_pagar);
       $("#cboestado").val(0);
+      $("#dtphorasalida").val(data.h_arriendo);
+      //$("#txtfdevolucion").val(),
+      //h_devolucion:$("#dtphoraingreso").val(),
       if (data.iva != 0) {
         $("#chkiva").prop("checked", true);
       }
@@ -357,7 +366,9 @@ onCerrarProcesoArriendo = () => {
       plaza: $("#txtplaza").val(),
       numero_ord_compra: $("#txtncomprobante").val(),
       fecha_arrienda: $("#txtfarriendo").val(),
+      h_arriendo:$("#dtphorasalida").val(),
       fecha_devolucion: $("#txtfdevolucion").val(),
+      h_devolucion:$("#dtphoraingreso").val(),
       periodo: $("#cboperiodo").val(),
       observacion: $("#txtobs").val(),
       subtotal: $("#txtsubtotal").val(),
