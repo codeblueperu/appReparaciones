@@ -48,7 +48,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <label for="cbocliente">Cliente (*)</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-microchip"></i></span>
-                                        <select name="cbocliente" id="cbocliente" class="form-control">
+                                        <select name="cbocliente" id="cbocliente" class="form-control" onchange="buscarDataCliente()">
                                             <?php
 
                                             $item = null;
@@ -65,7 +65,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="txtdocumento">Documento (*)</label>
                                     <div class="input-group">
@@ -75,7 +75,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="txtdireccion">Direccion (*)</label>
                                     <div class="input-group">
@@ -133,7 +133,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <label for="txtfarriendo">Fecha Arriendo (*)</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="date" name="txtfarriendo" id="txtfarriendo" class="form-control">
+                                        <input type="date" name="txtfarriendo" id="txtfarriendo" class="form-control" onchange="onCalcularfechas();onUpdateTable()">
                                     </div>
                                 </div>
                             </div>
@@ -143,8 +143,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <label for="dtphorasalida">Hora Arriendo (*)</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="time" name="dtphorasalida" id="dtphorasalida" class="form-control"
-                                            onchange="onCalcularfechas();onUpdateTable()">
+                                        <input type="time" name="dtphorasalida" id="dtphorasalida" class="form-control" onchange="onCalcularfechas();onUpdateTable()">
                                     </div>
                                 </div>
                             </div>
@@ -154,7 +153,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         <input type="date" name="txtfdevolucion" id="txtfdevolucion"
-                                            class="form-control">
+                                            class="form-control"  onchange="onCalcularfechas();onUpdateTable()">
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +164,8 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         <input type="time" name="dtphoraingreso" id="dtphoraingreso"
-                                            class="form-control" onchange="onCalcularfechas();onUpdateTable()">
+                                            class="form-control" onchange="onCalcularfechas();onUpdateTable()"
+                                            class="form-control" >
                                     </div>
                                 </div>
                             </div>

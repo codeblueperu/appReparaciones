@@ -242,9 +242,9 @@ onProcesar = () => {
       plaza: $("#txtplaza").val(),
       numero_ord_compra: $("#txtncomprobante").val(),
       fecha_arrienda: $("#txtfarriendo").val(),
-      h_arriendo:$("#dtphorasalida").val(),
+      h_arriendo: $("#dtphorasalida").val(),
       fecha_devolucion: $("#txtfdevolucion").val(),
-      h_devolucion:$("#dtphoraingreso").val(),
+      h_devolucion: $("#dtphoraingreso").val(),
       periodo: $("#cboperiodo").val(),
       observacion: $("#txtobs").val(),
       subtotal: $("#txtsubtotal").val(),
@@ -290,21 +290,48 @@ onProcesar = () => {
         console.log(error);
       });
   } else {
-    swal({ type: "warning", title: "Upps!", text: 'Todo los campos son Obligatorios' });
+    swal({
+      type: "warning",
+      title: "Upps!",
+      text: "Todo los campos son Obligatorios",
+    });
   }
 };
 
 function onCalcularfechas() {
-  let txtfarriendo = moment($("#txtfarriendo").val());
-  let txtfdevolucion = moment($("#txtfdevolucion").val());
+  let txtfarriendo = moment($("#txtfarriendo").val(), "yyyy-MM-DD HH:mm");
+  let txtfdevolucion = moment($("#txtfdevolucion").val(), "yyyy-MM-DD HH:mm");
   let dias = txtfdevolucion.diff(txtfarriendo, "days");
+  let hs = $("#dtphorasalida").val();
+  let hi = $("#dtphoraingreso").val();
 
-  if (parseInt(dias) > 30) {
+  let countdias = calcularDiasAusencia(
+    $("#txtfarriendo").val() + " " + hs,
+    $("#txtfdevolucion").val() + " " + hi
+  );
+  $("#txtdias").val(countdias + " Dia(s)");
+  /* if (parseInt(dias) > 30) {
     let dd = txtfdevolucion.diff(txtfarriendo, "days");
     $("#txtdias").val(txtfdevolucion.diff(txtfarriendo, "months") + " Mes(s)");
   } else {
     $("#txtdias").val(txtfdevolucion.diff(txtfarriendo, "days") + " Dia(s)");
+  } */
+}
+
+function calcularDiasAusencia(fechaIni, fechaFin) {
+  const inicio = new Date(fechaIni);
+  const fin = new Date(fechaFin);
+  const UN_DIA_EN_MILISEGUNDOS = 1000 * 60 * 60 * 24;
+  const INTERVALO = UN_DIA_EN_MILISEGUNDOS * 1; // Cada DIA
+  const formateadorFecha = new Intl.DateTimeFormat("es-Pe", {
+    dateStyle: "medium",
+  });
+  let count_dias = 0;
+  for (let i = inicio; i <= fin; i = new Date(i.getTime() + INTERVALO)) {
+    count_dias++;
   }
+
+  return count_dias;
 }
 
 function buscarDatosArriendo(token) {
@@ -315,7 +342,7 @@ function buscarDatosArriendo(token) {
     data: { operation: "buscararriendo", id: token },
   })
     .done(function ({ data, detalle }) {
-      console.log(detalle);
+      //console.log(detalle);
       $("#cbocliente").val(data.id_cliente);
       $("#txtbanco").val(data.banco);
       $("#txtnch").val(data.numero_ch);
@@ -330,6 +357,7 @@ function buscarDatosArriendo(token) {
       $("#txttotal").val(data.total_pagar);
       $("#cboestado").val(0);
       $("#dtphorasalida").val(data.h_arriendo);
+      buscarDataCliente()
       //$("#txtfdevolucion").val(),
       //h_devolucion:$("#dtphoraingreso").val(),
       if (data.iva != 0) {
@@ -366,9 +394,9 @@ onCerrarProcesoArriendo = () => {
       plaza: $("#txtplaza").val(),
       numero_ord_compra: $("#txtncomprobante").val(),
       fecha_arrienda: $("#txtfarriendo").val(),
-      h_arriendo:$("#dtphorasalida").val(),
+      h_arriendo: $("#dtphorasalida").val(),
       fecha_devolucion: $("#txtfdevolucion").val(),
-      h_devolucion:$("#dtphoraingreso").val(),
+      h_devolucion: $("#dtphoraingreso").val(),
       periodo: $("#cboperiodo").val(),
       observacion: $("#txtobs").val(),
       subtotal: $("#txtsubtotal").val(),
@@ -420,8 +448,31 @@ onCerrarProcesoArriendo = () => {
         console.log(error);
       });
   } else {
-    swal({ type: "warning", title: "Upps!", text: 'Todo los campos son Obligatorios' });
+    swal({
+      type: "warning",
+      title: "Upps!",
+      text: "Todo los campos son Obligatorios",
+    });
   }
 };
+
+function buscarDataCliente() {
+  var datos = new FormData();
+  datos.append("idCliente", $("#cbocliente").val());
+
+  $.ajax({
+    url: "ajax/clientes.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      $("#txtdocumento").val(respuesta["documento"]);
+      $("#txtdireccion").val(respuesta["direccion"]);
+    },
+  });
+}
 
 init();
