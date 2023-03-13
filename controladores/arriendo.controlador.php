@@ -46,5 +46,14 @@ class ControladorArriendo
         return $respuesta;
 
     }
+
+    static public function ctrParametrosGenerales()
+    {
+
+        $respuesta = ModeloArriendo::mdlParametrosGenerales();
+
+        return $respuesta;
+
+    }
 }
 ?>

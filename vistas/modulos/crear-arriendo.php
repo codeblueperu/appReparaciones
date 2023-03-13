@@ -49,6 +49,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-microchip"></i></span>
                                         <select name="cbocliente" id="cbocliente" class="form-control" onchange="buscarDataCliente()">
+                                            <option value="0">---: SELECCIONE :---</option>
                                             <?php
 
                                             $item = null;
@@ -120,7 +121,7 @@ if ($_SESSION["perfil"] == "Especial") {
                                     <label for="txtncomprobante">N° comprobante (*)</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-microchip"></i></span>
-                                        <input type="text" name="txtncomprobante" id="txtncomprobante"
+                                        <input type="text" name="txtncomprobante" id="txtncomprobante" disabled
                                             class="form-control">
                                     </div>
                                 </div>
@@ -159,6 +160,7 @@ if ($_SESSION["perfil"] == "Especial") {
                             </div>
 
                             <div class="col-md-3">
+                                <input type="hidden" name="txtnumberdaymargen" id="txtnumberdaymargen">
                                 <div class="form-group">
                                     <label for="dtphoraingreso">Hora Devolución (*)</label>
                                     <div class="input-group">

@@ -91,5 +91,9 @@ if ($_GET['operation'] === 'show') {
     $msg = ControladorArriendo::ctrCerrarArriendo($datos, $_GET['detalle'],$_GET['id_arriendo']);
     $response = array('message' => $msg);
     echo json_encode($response);
+}else if ($_GET['operation'] === 'parametrosgenerales') {
+   
+    $response = ControladorArriendo::ctrParametrosGenerales();
+    echo json_encode($response);
 }
 ?>

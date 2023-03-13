@@ -27,6 +27,7 @@ class ModeloArriendo
 
     static public function mdlCrearArriendo($datos,$detalle)
     {
+        /* GUARDAMOS EL REGISTRO DEL ARRIENDO */
         $stmt = Conexion::conectar()->prepare("INSERT INTO arriendo (id_cliente, id_usuario, banco, numero_ch, plaza, numero_ord_compra, periodo, observacion, fecha_arrienda,h_arriendo,fecha_devolucion,h_devolucion,subtotal,iva,total_pagar,estado)
          VALUES (:id_cliente, :id_usuario, :banco, :numero_ch, :plaza, :numero_ord_compra, :periodo, :observacion, :fecha_arrienda, :h_arriendo, :fecha_devolucion, :h_devolucion, :subtotal, :iva, :total_pagar, :estado)");
 
@@ -48,12 +49,11 @@ class ModeloArriendo
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            $id= 2;
+            /* GUARDAMOS EL DETALLE */
             foreach ($detalle as $key) {
                 $stmt = Conexion::conectar()->prepare("INSERT INTO detalle_arriendo (id_arriendo, id_herramienta, precio, tiempo, total)
                 VALUES ((SELECT id_arriendo from arriendo order by id_arriendo desc limit 1), :id_herramienta, :precio, :tiempo, :total)");
-    
-                //$stmt->bindParam(":id_arriendo", $id, PDO::PARAM_INT);
+
                 $stmt->bindParam(":id_herramienta", $key["id_herramienta"], PDO::PARAM_INT);
                 $stmt->bindParam(":precio", $key["precio"], PDO::PARAM_STR);
                 $stmt->bindParam(":tiempo", $key["tiempo"], PDO::PARAM_STR);
@@ -61,12 +61,16 @@ class ModeloArriendo
         
                 $stmt->execute();
             }
+
+            /* UPDATE CORRELATIVO */
+            $stmt = Conexion::conectar()->prepare("UPDATE configuraciones SET number_correlativo = (number_correlativo + 1) WHERE code = 100");
+            $stmt->execute();
+
+            /* RETURN RESPUESTA */
             return "El arriendo fue registrado con éxito.";
 
         } else {
-
             return "error";
-
         }
 
         $stmt->close();
@@ -157,6 +161,20 @@ class ModeloArriendo
         }
 
         $stmt->close();
+        $stmt = null;
+
+    }
+
+    static public function mdlParametrosGenerales()
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM configuraciones");
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+
         $stmt = null;
 
     }

@@ -45,6 +45,7 @@ var __table_arriendo__ = $("#__table_arriendo__").DataTable({
         for (let i = 0; i < data.length; i++) {
             let estado = (data[i].estado == '1' ? `<span class="badge btn-warning">Pendiente</span>` : (data[i].estado == '2' ? `<span class="badge btn-danger">Anulado</span>` : `<span class="badge btn-success">Entregado</span>`))
           let btnedit = `<button class="btn btn-success btn-xs" onclick="onUpdateArriendo(${data[i].id_arriendo});"><i class="fa fa-check-square-o"></i></button>`;
+          let btnprint = `<button class="btn btn-primary btn-xs" onclick="printcontratoarriendo(${data[i].id_arriendo});"><i class="fa fa-print"></i></button>`;
           
           __table_arriendo__.row
             .add([
@@ -58,7 +59,7 @@ var __table_arriendo__ = $("#__table_arriendo__").DataTable({
               data[i].total_pagar,
               data[i].periodo,
               estado,
-              (data[i].estado == '1' ? btnedit : '')
+              (data[i].estado == '1' ? btnedit : btnprint)
             ])
             .draw(false);
         }
@@ -72,3 +73,11 @@ var __table_arriendo__ = $("#__table_arriendo__").DataTable({
     window.location.href = "crear-arriendo?token="+id
   }
   
+
+  function printcontratoarriendo(id){
+    window.open(
+      "ajax/rptcontratoarriendo.ajax.php",
+      "",
+      "location=no,menubar=no,titlebar=no,resizable=no,toolbar=no,scrollbars=yes,width=700,height=540"
+    );
+  }

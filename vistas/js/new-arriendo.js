@@ -80,7 +80,7 @@ function init() {
 
   $("#txtfarriendo").val(moment(new Date()).format("yyyy-MM-DD"));
   $("#txtfdevolucion").val(moment(new Date()).format("yyyy-MM-DD"));
-  //$("#txtfdevolucion").val(moment(new Date()).add(1, "d").format("yyyy-MM-DD"));
+
   if (token_value != null) {
     buscarDatosArriendo(token_value);
     $("#txtfdevolucion").val(moment(new Date()).format("yyyy-MM-DD"));
@@ -88,12 +88,14 @@ function init() {
     $("#btn-cerrar").css("display", "block");
     $("#dtphoraingreso").val(moment(new Date()).format("HH:mm"));
   } else {
+    obtenerParamGenerales();
     $("#btn-cerrar").css("display", "none");
     setInterval(() => {
       $("#dtphorasalida").val(moment(new Date()).format("HH:mm"));
     }, 1000);
   }
-  onCalcularfechas();
+  //onCalcularfechas();
+  
 }
 
 async function listarHerramientas() {
@@ -305,20 +307,19 @@ function onCalcularfechas() {
   let hs = $("#dtphorasalida").val();
   let hi = $("#dtphoraingreso").val();
 
-  let countdias = calcularDiasAusencia(
+  const date = moment(hi,"HH:mm").subtract(parseInt($("#txtnumberdaymargen").val()), 'hours')
+  const minute = date.minutes()
+  const calhi = date.subtract(minute, 'minutes').format('HH:mm');
+  
+  let countdias = getCalcularDiasHorasTranscurridos(
     $("#txtfarriendo").val() + " " + hs,
-    $("#txtfdevolucion").val() + " " + hi
+    $("#txtfdevolucion").val() + " " + calhi.toString()
   );
   $("#txtdias").val(countdias + " Dia(s)");
-  /* if (parseInt(dias) > 30) {
-    let dd = txtfdevolucion.diff(txtfarriendo, "days");
-    $("#txtdias").val(txtfdevolucion.diff(txtfarriendo, "months") + " Mes(s)");
-  } else {
-    $("#txtdias").val(txtfdevolucion.diff(txtfarriendo, "days") + " Dia(s)");
-  } */
 }
 
-function calcularDiasAusencia(fechaIni, fechaFin) {
+
+function getCalcularDiasHorasTranscurridos(fechaIni, fechaFin) {
   const inicio = new Date(fechaIni);
   const fin = new Date(fechaFin);
   const UN_DIA_EN_MILISEGUNDOS = 1000 * 60 * 60 * 24;
@@ -335,6 +336,7 @@ function calcularDiasAusencia(fechaIni, fechaFin) {
 }
 
 function buscarDatosArriendo(token) {
+  obtenerParamGenerales();
   $.ajax({
     url: `ajax/arriendo.ajax.php`,
     type: "GET",
@@ -342,14 +344,14 @@ function buscarDatosArriendo(token) {
     data: { operation: "buscararriendo", id: token },
   })
     .done(function ({ data, detalle }) {
-      //console.log(detalle);
+      
+
       $("#cbocliente").val(data.id_cliente);
       $("#txtbanco").val(data.banco);
       $("#txtnch").val(data.numero_ch);
       $("#txtplaza").val(data.plaza);
       $("#txtncomprobante").val(data.numero_ord_compra);
       $("#txtfarriendo").val(moment(data.fecha_arrienda).format("yyyy-MM-DD"));
-      //$("#txtfdevolucion").val(data.);
       $("#cboperiodo").val(data.periodo);
       $("#txtobs").val(data.observacion);
       $("#txtsubtotal").val(data.subtotal);
@@ -357,12 +359,16 @@ function buscarDatosArriendo(token) {
       $("#txttotal").val(data.total_pagar);
       $("#cboestado").val(0);
       $("#dtphorasalida").val(data.h_arriendo);
-      buscarDataCliente()
-      //$("#txtfdevolucion").val(),
-      //h_devolucion:$("#dtphoraingreso").val(),
+      buscarDataCliente();
+      $("#txtfarriendo").attr('disabled','true')
+      $("#dtphorasalida").attr('disabled','true')
+      $("#cbocliente").attr('disabled','true')
+      
       if (data.iva != 0) {
         $("#chkiva").prop("checked", true);
       }
+      
+
       onCalcularfechas();
 
       for (let i = 0; i < detalle.length; i++) {
@@ -471,6 +477,21 @@ function buscarDataCliente() {
     success: function (respuesta) {
       $("#txtdocumento").val(respuesta["documento"]);
       $("#txtdireccion").val(respuesta["direccion"]);
+    },
+  });
+}
+
+function obtenerParamGenerales() {
+
+  $.ajax({
+    url: "ajax/arriendo.ajax.php",
+    method: "GET",
+    data: {operation: "parametrosgenerales"},
+    dataType: "json",
+    success: function (respuesta) {
+      $("#txtncomprobante").val(respuesta[0].number_correlativo);
+      $("#txtnumberdaymargen").val(respuesta[0].horas_retraso);
+      console.log(respuesta)
     },
   });
 }
