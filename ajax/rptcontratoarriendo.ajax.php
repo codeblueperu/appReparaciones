@@ -1,69 +1,23 @@
 <?php
-include_once '../extensiones/dompdf/autoload.inc.php';
-
+require '../extensiones/vendor/autoload.php';
+    
 use Dompdf\Dompdf;
-use Dompdf\Options;
-
-ob_start();
-$options = new Options();
-$options->set('isRemoteEnabled', true);
-$options->set('defaultFont', 'Courier');
-
-
-$dompdf = new DOMPDF($options);
 
 // Componer el HTML
 $html = '
 <style>
-    @page {
-        margin-left: 0.7cm;
-        margin-right: 0.7cm;
-        margin-top: 0.7cm;
-    }
-    p{
-        width:100%;
-    }
-    .content_cliente{
-        width:100%;
-        position: relative;
-    }
-     span.p_don{
-        width: 200px;
-        color:red;
-        position:absolute;
-    }
+
 </style>
 <body>
-    <div class="container-fluid">
-        <div class="banner">       
-                    
-        </div>
-
-        <div class="content_fecha">
-            <p>En antofagasta 	<b>13</b>	de	<b>Marzo</b>			del <b>2023</b>	Nº	<b>2460</b></p>
-
-            <p style="text-align:justify;font-size:12px">Entre SERVICIOS GENERALES MEDINA ASOCIADOS SPA., RUT: 76,957462-K en adelante "EL ARRENDADOR" debidamente representado
-             por el Sr. CARLOS MEDINA IZQUIERDO Rep. Legal, domiciliados en Huamachuco 9962, Antofagasta - Cel.: 9 9264 4118 por una parte y la otra.</p>										
-
-        </div>
-
-        <div class="content_cliente">
-            <p><span style="width:150px;">Don</span> <b>: More Inga Jhony</b> <span>RUT</span> <b>013587469</b></p> 
-            <p><span>Domicilio</span> <b>: Jr meliton carbajal #240 SMP</b> <span>Ciudad</span> <b>: Lima</b> <span>Fono</span> <b>: 963258741</b></p> 
-        </div>
-       
-        
-    </div>
+    <img src="data:image/jpeg;base64,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">
 </body>
 ';
-
-$dompdf->loadHtml($html);
-
-//$dompdf->setHttpContext($contxt);
-$dompdf->setPaper('A4', 'portrait');
-$dompdf->render();
-/*header("Content-type: application/pdf");
-header("Content-Disposition: inline; filename=comprobante");
-echo $dompdf->output(); */
-$dompdf->stream("comprobante", array("Attachment" => false));
+//$html=ob_get_clean();
+$dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A5', 'portrait');
+    $dompdf->render();
+    header("Content-type: application/pdf");
+    header("Content-Disposition: inline; filename=OLA.pdf");
+    echo $dompdf->output();
 ?>
